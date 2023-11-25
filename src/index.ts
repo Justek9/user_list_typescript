@@ -67,5 +67,39 @@ class Message {
 	}
 }
 
+interface User {
+	name: string
+	age: number
+}
+
+class UsersData {
+	private data: User[] = []
+
+	public showAll(): void {
+		Message.showColorized(MessageVariant.Info, 'Users data')
+		if (this.data.length === 0) {
+			console.log('No data...')
+		} else {
+			console.table(this.data)
+		}
+	}
+
+	public add(user: User): void {
+		if (user.age > 0 && user.name.length > 0) {
+			this.data.push(user)
+			Message.showColorized(MessageVariant.Success, 'User has been successfully added!')
+		} else Message.showColorized(MessageVariant.Error, 'Wrong data!')
+	}
+
+	public remove(name: string): void {
+		const index = this.data.findIndex(user => user.name === name)
+		if (index !== -1) {
+			this.data.splice(index, 1)
+			Message.showColorized(MessageVariant.Success, 'User deleted!')
+		} else Message.showColorized(MessageVariant.Error, 'User not found...')
+	}
+}
+
+
 
 startApp()
